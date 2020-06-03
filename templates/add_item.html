@@ -2,16 +2,26 @@
 {% block title %}Add To-Do Item{% endblock %}
 
 {% block content %}
-<h1>Add Item</h1>
+<h1>Add a new item...</h1>
+<hr>
 
 <form action="/add_item" method="POST">
 
     <div class="form-group">
-        <label>title</label>
+        <label>Enter Description:</label>
         <input class="form-control" type="text" name="title" required>
     </div>
 
-    <button type="submit" class="btn btn-primary">Add</button>
+    <div class="form-group">
+        <label for="sel1">Select Status:</label>
+        <select class="form-control" id="sel1">
+          <option>Not Started</option>
+          <option>In Progress</option>
+          <option>Completed</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Add</button>
 
 </form>
 

@@ -4,10 +4,12 @@ import session_items as session
 app = Flask(__name__)
 app.config.from_object('flask_config.Config')
 
-@app.route('/')
+# Index.html
+@app.route('/') #localhost
 def index():
     return render_template('index.html', get_items=session.get_items())
 
+# Add an item
 @app.route('/add_item', methods=['GET', 'POST'])
 def add_item():
 
@@ -15,17 +17,29 @@ def add_item():
 
         req = request.form
 
-        item = req["title"]
+        new_item = req['title']
 
-        print(item)
+        print(new_item)
 
-        session.add_item(item)
+        session.add_item(new_item)
 
         return redirect('/')
 
-
-
     return render_template('add_item.html')
+
+@app.route('/read_item/<int:id>')
+def read_item(id):
+    
+    found_item = session.get_item(id)
+    print(found_item)
+
+    return render_template('read_item.html', found_item=found_item)
+
+# Delete an item
+@app.route('/delete_item', methods=['GET', 'POST'])
+def delete_item():
+    return render_template('delete_item.html')
+
 
 if __name__ == '__main__':
     app.run()

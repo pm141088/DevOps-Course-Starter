@@ -9,7 +9,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h2>Items</h2>
+    <h2>Items found by ID:</h2>
     <ul class="list-group mb-4">
       <!-- List the todo items here -->
       <table style="width:100%">
@@ -18,16 +18,14 @@
           <th>Status</th>
           <th>Title</th>
         </tr>
-        {% for item in get_items %}
         <tr>
-          <td><a href="{{url_for('read_item', id=item.id)}}">{{ item.id }}</a></td>
-          <td>{{ item.status }}</td>
-          <td>{{ item.title }}</td>
+          <td>{{ found_item.id }}</td>
+          <td>{{ found_item.status }}</td>
+          <td>{{ found_item.title }}</td>
         </tr>
-        {% endfor %}
       </table>
       <hr>
-      <a href="{{ url_for('add_item') }}">Add a new item</a>
+      <!--<a href="{{ url_for('add_item') }}">Add a new item</a>-->
     </ul>
   </div>
 </div>
