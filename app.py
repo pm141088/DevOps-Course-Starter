@@ -32,13 +32,15 @@ def add_item():
 @app.route('/read_item/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def read_item(id):
     found_item = session.get_item(id)
+    get_items = session.get_items()
     if request.method == b'PATCH':
         #found_item.status = request.form['status']
         #found_item.title = request.form['title']
         return redirect(url_for('index'))
     if request.method == b'DELETE':
-        #if id in session.get_items()
-            #del session.get_items()
+        #get_items.remove(found_item)
+        #session['items'] = get_items
+        session.delete_item(id)
         return redirect(url_for('index'))
     return render_template('read_item.html', found_item=found_item)
 

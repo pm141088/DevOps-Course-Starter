@@ -29,12 +29,10 @@
   </div>
 </div>
 
-<a href="{{url_for('edit_item', id=found_item.id)}}">Edit this item!</a>
+<a class="btn btn-primary" href="{{url_for('edit_item', id=found_item.id)}}" role="button">Edit</a>
 <p></p>
-<hr>
-<h2>Delete this item!</h2>
 <form method="POST" action="{{url_for('read_item', id=found_item.id)}}?_method=DELETE">
-  <input type="submit" value="X">
+  <input class="btn btn-danger" type="submit" value="Delete">
 </form>
 
 {% endblock %}
