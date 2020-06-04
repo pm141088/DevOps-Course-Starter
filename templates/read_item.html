@@ -25,8 +25,16 @@
         </tr>
       </table>
       <hr>
-      <!--<a href="{{ url_for('add_item') }}">Add a new item</a>-->
     </ul>
   </div>
 </div>
+
+<a href="{{url_for('edit_item', id=found_item.id)}}">Edit this item!</a>
+<p></p>
+<hr>
+<h2>Delete this item!</h2>
+<form method="POST" action="{{url_for('read_item', id=found_item.id)}}?_method=DELETE">
+  <input type="submit" value="X">
+</form>
+
 {% endblock %}

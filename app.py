@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for
 import session_items as session
+from flask_modus import Modus
 
 app = Flask(__name__)
+modus = Modus(app)
 app.config.from_object('flask_config.Config')
 
 # Index.html
@@ -27,13 +29,27 @@ def add_item():
 
     return render_template('add_item.html')
 
-@app.route('/read_item/<int:id>')
+@app.route('/read_item/<int:id>', methods=['GET', 'PATCH', 'DELETE'])
 def read_item(id):
-    
+    found_item = session.get_item(id)
+    if request.method == b'PATCH':
+        #found_item.status = request.form['status']
+        #found_item.title = request.form['title']
+        return redirect(url_for('index'))
+    if request.method == b'DELETE':
+        #if id in session.get_items()
+            #del session.get_items()
+        return redirect(url_for('index'))
+    return render_template('read_item.html', found_item=found_item)
+
+# Edit an item
+@app.route('/read_item/<int:id>/edit')
+def edit_item(id):
+
     found_item = session.get_item(id)
     print(found_item)
 
-    return render_template('read_item.html', found_item=found_item)
+    return render_template('edit_item.html', found_item=found_item)
 
 # Delete an item
 @app.route('/delete_item', methods=['GET', 'POST'])
