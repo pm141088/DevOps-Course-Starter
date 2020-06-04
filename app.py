@@ -38,8 +38,6 @@ def read_item(id):
         #found_item.title = request.form['title']
         return redirect(url_for('index'))
     if request.method == b'DELETE':
-        #get_items.remove(found_item)
-        #session['items'] = get_items
         session.delete_item(id)
         return redirect(url_for('index'))
     return render_template('read_item.html', found_item=found_item)
@@ -52,12 +50,6 @@ def edit_item(id):
     print(found_item)
 
     return render_template('edit_item.html', found_item=found_item)
-
-# Delete an item
-@app.route('/delete_item', methods=['GET', 'POST'])
-def delete_item():
-    return render_template('delete_item.html')
-
 
 if __name__ == '__main__':
     app.run()
