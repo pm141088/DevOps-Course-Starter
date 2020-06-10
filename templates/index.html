@@ -18,7 +18,7 @@
           <th>Status</th>
           <th>Title</th>
         </tr>
-        {% for item in get_items %}
+        {% for item in items %}
         <tr>
           <td><a href="{{url_for('read_item', id=item.id)}}">{{ item.id }}</a></td>
           <td>{{ item.status }}</td>

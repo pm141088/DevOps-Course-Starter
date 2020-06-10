@@ -7,21 +7,21 @@
 
 <form action="/add_item" method="POST">
 
-    <div class="form-group">
-        <label>Enter Description:</label>
-        <input class="form-control" type="text" name="title" required>
-    </div>
+  <div class="form-group">
+    <label>Enter Title:</label>
+    <input class="form-control" type="text" name="title" required>
+  </div>
 
-    <div class="form-group">
-        <label for="sel1">Select Status:</label>
-        <select class="form-control" id="sel1">
-          <option>Not Started</option>
-          <option>In Progress</option>
-          <option>Completed</option>
-        </select>
-      </div>
+  <div class="form-group">
+    <label>Select Status:</label>
+    <select class="form-control" name="status" required>
+      <option>Not Started</option>
+      <option>In Progress</option>
+      <option>Completed</option>
+    </select>
+  </div>
 
-      <button type="submit" class="btn btn-primary">Add</button>
+  <button type="submit" class="btn btn-primary">Add</button>
 
 </form>
 
