@@ -8,7 +8,7 @@ app.config.from_object('flask_config.Config')
 @app.route('/') 
 def index():
     items = session.get_items()
-    sorted_items = sorted(items, key=lambda item: 0 if item['status'] == "Not Started" else 1)
+    sorted_items = sorted(items, key=lambda item: item['status'], reverse=True)
     return render_template('index.html', items=sorted_items)
 
 # Add an item
