@@ -23,23 +23,35 @@ def add_item():
     else:
         return render_template('add_item.html')
 
-@app.route('/read_item/<int:id>', methods=['GET', 'DELETE'])
+# Read an item by ID
+@app.route('/read_item/<int:id>', methods=['GET'])
 def read_item(id):
     found_item = session.get_item(id)
     return render_template('read_item.html', found_item=found_item)
 
+# Delete an item by ID
 @app.route('/read_item/<int:id>/delete', methods=['GET', 'DELETE'])
 def delete_item(id):
     session.delete_item(id)
     return redirect(url_for('index'))
 
-@app.route('/read_item/<int:id>/edit', methods=['POST'])
-def edit_item(id):
+# Mark an item as 'In Progress'
+@app.route('/read_item/<int:id>/status-in-progress', methods=['PUT', 'POST'])
+def status_in_progress(id):
     item = session.get_item(id)
     if item != None:
-        item['status'] = toggle_string(item['status'])
+        item['status'] = "In Progress"
         session.save_item(item)
-    return redirect(url_for('index'))
+        return redirect(url_for('index'))
+
+# Mark an item as 'Completed'
+@app.route('/read_item/<int:id>/status-completed', methods=['PUT', 'POST'])
+def status_completed(id):
+    item = session.get_item(id)
+    if item != None:
+        item['status'] = "Completed"
+        session.save_item(item)
+        return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run()
