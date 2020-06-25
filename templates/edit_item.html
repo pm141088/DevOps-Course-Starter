@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}To-Do App{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <h1 class="display-4">To-Do App</h1>
+  <p class="lead">Just another to-do app.</p>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Edit this item:</h2>
+    <form method="POST" action="{{url_for('read_item', id=found_item.id)}}?_method=PATCH">
+      <label>ID: {{found_item.id}}</label>
+      <p></p>
+      <label>Status:</label>
+      <input type="text" size="50" name="status" value="{{ found_item.status }}">
+      <p></p>
+      <label>Title:</label>
+      <input type="text" size="50" name="title" value="{{ found_item.title }}">
+      <p></p>
+      <input type="submit" value="Edit item!">
+    </form>
+
+{% endblock %}
