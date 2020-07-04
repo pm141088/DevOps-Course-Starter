@@ -51,12 +51,22 @@ def complete_item(id):
     api_method = 'PUT'
     requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_done_list })
 
-def uncomplete_item(id):
+def in_progress_item(id):
     """
-    Moves a Trello item card from the Done to To Do List
+    Moves a Trello item card from the To Do list to Doing list.
 
     Args:
         id: The id of the item to mark as complete.
+    """
+    api_method = 'PUT'
+    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_doing_list })
+
+def uncomplete_item(id):
+    """
+    Moves an item with specified ID to the To Do list in Trello.
+
+    Args:
+        id: the ID of the item
     """
     api_method = 'PUT'
     requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_todo_list })

@@ -9,8 +9,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h2>Items</h2>
-
+    <h2>Add Item</h2>
     <form action="{{ url_for('index') }}" method="post" class="mb-3">
       <div class="form-group">
         <label for="title">Item Title:</label>
@@ -25,6 +24,9 @@
       </div>
     </form>
 
+    <br>
+    <h2>To-Do List:</h2>
+
     <ul class="list-group mb-4">
       {% for item in items %}
       <li class="list-group-item">
@@ -35,12 +37,18 @@
               <button type="submit" class="btn btn-danger">Delete</button>
             </form>
             {% if item.status == 'Not Started' %}
+            <form action="{{ url_for('in_progress_item', id=item.id) }}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-warning">Mark as In-Progress</button>
+            </form>
+            {% endif %}
+            {% if item.status == 'In Progress' %}
             <form action="{{ url_for('complete_item', id=item.id) }}" method="post" class="d-inline">
               <button type="submit" class="btn btn-success">Mark as Completed</button>
             </form>
-            {% else %}
+            {% endif %}
+            {% if item.status == 'Completed' %}
             <form action="{{ url_for('uncomplete_item', id=item.id) }}" method="post" class="d-inline">
-              <button type="submit" class="btn btn-success">Mark as Uncompleted</button>
+              <button type="submit" class="btn btn-primary">Mark as Incomplete</button>
             </form>
             {% endif %}
           </div>

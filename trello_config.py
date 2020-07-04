@@ -7,7 +7,7 @@ class Config:
     TRELLO_API_TOKEN = os.environ.get('TRELLO_API_TOKEN')
     TRELLO_BOARD_ID = os.environ.get('TRELLO_BOARD_ID')
     TRELLO_TODO_LIST_ID = os.environ.get('TRELLO_TODO_LIST_ID')
-    TRELLO_DOING_LIST_ID = os.environ.get('TRELLO_DONE_LIST_ID')
+    TRELLO_DOING_LIST_ID = os.environ.get('TRELLO_DOING_LIST_ID')
     TRELLO_DONE_LIST_ID = os.environ.get('TRELLO_DONE_LIST_ID')
 
     if not (TRELLO_API_KEY and TRELLO_API_TOKEN):
