@@ -5,9 +5,9 @@ app = Flask(__name__)
 
 @app.route('/') 
 def index():
-    items = trello_items.get_items()
-    sorted_items = sorted(items, key=lambda item: item['status'], reverse=True)
-    return render_template('index.html', items=sorted_items)
+    #items = trello_items.get_items()
+    items = sorted(trello_items.get_items(), key=lambda i: i.status, reverse=True)
+    return render_template('index.html', items=items)
 
 @app.route('/', methods=['POST'])
 def add_item():
@@ -16,17 +16,17 @@ def add_item():
     trello_items.add_item(title, description)
     return redirect(url_for('index'))
 
-@app.route('/items/<int:id>', methods=['POST'])
+@app.route('/items/<id>/complete', methods=['POST'])
 def complete_item(id):
     trello_items.complete_item(id)
     return redirect(url_for('index'))
 
-@app.route('/items/<int:id>', methods=['POST'])
-def in_progress_item(id):
-    trello_items.in_progress_item(id)
+@app.route('/items/<id>/uncomplete', methods=['POST'])
+def uncomplete_item(id):
+    trello_items.uncomplete_item(id)
     return redirect(url_for('index'))
 
-@app.route('/items/delete/<int:id>', methods=['POST'])
+@app.route('/items/delete/<id>', methods=['POST'])
 def delete_item(id):
     trello_items.delete_item(id)
     return redirect(url_for('index'))

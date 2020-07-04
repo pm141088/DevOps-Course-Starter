@@ -1,0 +1,72 @@
+from trello_config import Config
+from todo_item_class import ToDoItem
+import requests
+
+my_todo_list = Config.TRELLO_TODO_LIST_ID
+my_doing_list = Config.TRELLO_DOING_LIST_ID
+my_done_list = Config.TRELLO_DONE_LIST_ID
+
+trello_board_url = f'https://api.trello.com/1/boards/{Config.TRELLO_BOARD_ID}/cards'
+trello_cards_url = 'https://api.trello.com/1/cards'
+
+trello_auth = { 'key': Config.TRELLO_API_KEY, 'token': Config.TRELLO_API_TOKEN }
+
+def get_trello_card_url(id):
+    return f'{trello_cards_url}/{id}'
+
+def get_items():
+    """
+    Fetches all to do items from Trello.
+
+    Returns:
+        list: The list of saved items.
+    """
+    api_method = 'GET'
+    response = requests.request(api_method, trello_board_url, params=trello_auth).json()
+    #print(response.text)
+    
+    return [ToDoItem.fromTrelloCard(card, my_todo_list) for card in response]
+
+def add_item(title, description = ''):
+    """
+    Adds a new item with the specified title & description to Trello. 
+
+    Args:
+        title: The title of the item.
+        description: The description of the item
+
+    Returns:
+        item: The saved item.
+    """
+    api_method = 'POST'
+    requests.request(api_method, trello_cards_url, params={**trello_auth, 'idList': my_todo_list, 'name': title, 'desc': description })
+
+def complete_item(id):
+    """
+    Moves a Trello item card from the To Do list to Done.
+
+    Args:
+        id: The id of the item to mark as complete.
+    """
+    api_method = 'PUT'
+    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_done_list })
+
+def uncomplete_item(id):
+    """
+    Moves a Trello item card from the Done to To Do List
+
+    Args:
+        id: The id of the item to mark as complete.
+    """
+    api_method = 'PUT'
+    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_todo_list })
+
+def delete_item(id):
+    """
+    Removes an existing item from Trello. 
+
+    Args:
+        id: The id of the item to remove.
+    """
+    api_method = 'DELETE'
+    requests.request(api_method, get_trello_card_url(id), params=trello_auth)

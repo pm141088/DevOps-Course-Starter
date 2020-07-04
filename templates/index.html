@@ -35,13 +35,12 @@
               <button type="submit" class="btn btn-danger">Delete</button>
             </form>
             {% if item.status == 'Not Started' %}
-            <form action="{{ url_for('in_progress_item', id=item.id) }}" method="post" class="d-inline">
-              <button type="submit" class="btn btn-success">Mark as In Progress</button>
-            </form>
-            {% endif %}
-            {% if item.status == 'In Progress' %}
             <form action="{{ url_for('complete_item', id=item.id) }}" method="post" class="d-inline">
               <button type="submit" class="btn btn-success">Mark as Completed</button>
+            </form>
+            {% else %}
+            <form action="{{ url_for('uncomplete_item', id=item.id) }}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-success">Mark as Uncompleted</button>
             </form>
             {% endif %}
           </div>
