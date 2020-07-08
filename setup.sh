@@ -11,7 +11,7 @@ python -m venv env
 
 if [ $Windows == 1 ]
 then source env/scripts/activate
-else source env/scripts/activate
+else source env/bin/activate
 fi
 
 # Upgrade pip and install required packages
