@@ -1,10 +1,10 @@
 from trello_config import Config
-from todo_item_class import ToDoItem
+from todo_item_class import ToDoItem, Status
 import requests
 
-my_todo_list = Config.TRELLO_TODO_LIST_ID
-my_doing_list = Config.TRELLO_DOING_LIST_ID
-my_done_list = Config.TRELLO_DONE_LIST_ID
+todo_list_id = Config.TRELLO_TODO_LIST_ID
+doing_list_id = Config.TRELLO_DOING_LIST_ID
+done_list_id = Config.TRELLO_DONE_LIST_ID
 
 trello_board_url = f'https://api.trello.com/1/boards/{Config.TRELLO_BOARD_ID}/cards'
 trello_cards_url = 'https://api.trello.com/1/cards'
@@ -13,6 +13,14 @@ trello_auth = { 'key': Config.TRELLO_API_KEY, 'token': Config.TRELLO_API_TOKEN }
 
 def get_trello_card_url(id):
     return f'{trello_cards_url}/{id}'
+
+def get_status(list_id):
+    if list_id == todo_list_id:
+        return Status.TO_DO
+    elif list_id == doing_list_id:
+        return Status.DOING
+    else:
+        return Status.DONE
 
 def get_items():
     """
@@ -25,7 +33,7 @@ def get_items():
     response = requests.request(api_method, trello_board_url, params=trello_auth).json()
     #print(response.text)
     
-    return [ToDoItem.fromTrelloCard(card, my_todo_list) for card in response]
+    return [ToDoItem.fromTrelloCard(card, get_status(card['idList'])) for card in response]
 
 def add_item(title, description = ''):
     """
@@ -39,7 +47,7 @@ def add_item(title, description = ''):
         item: The saved item.
     """
     api_method = 'POST'
-    requests.request(api_method, trello_cards_url, params={**trello_auth, 'idList': my_todo_list, 'name': title, 'desc': description })
+    requests.request(api_method, trello_cards_url, params={**trello_auth, 'idList': todo_list_id, 'name': title, 'desc': description })
 
 def complete_item(id):
     """
@@ -49,7 +57,7 @@ def complete_item(id):
         id: The id of the item to mark as complete.
     """
     api_method = 'PUT'
-    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_done_list })
+    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': done_list_id })
 
 def in_progress_item(id):
     """
@@ -59,7 +67,7 @@ def in_progress_item(id):
         id: The id of the item to mark as complete.
     """
     api_method = 'PUT'
-    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_doing_list })
+    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': doing_list_id })
 
 def uncomplete_item(id):
     """
@@ -69,7 +77,7 @@ def uncomplete_item(id):
         id: the ID of the item
     """
     api_method = 'PUT'
-    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': my_todo_list })
+    requests.request(api_method, get_trello_card_url(id), params={**trello_auth, 'idList': todo_list_id })
 
 def delete_item(id):
     """

@@ -1,3 +1,5 @@
+from todo_item_class import Status
+
 class ViewModel:
     def __init__(self, items):
         self._items = items

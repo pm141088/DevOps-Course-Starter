@@ -25,10 +25,10 @@
     </form>
 
     <br>
-    <h2>To-Do List:</h2>
+    <h2>Not Started</h2>
 
     <ul class="list-group mb-4">
-      {% for item in view_model.items %}
+      {% for item in view_model.to_do_items %}
       <li class="list-group-item">
         <div class="row">
           <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
@@ -36,21 +36,57 @@
             <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
               <button type="submit" class="btn btn-danger">Delete</button>
             </form>
-            {% if item.status == 'Not Started' %}
+            <!--{% if item.status == 'Status.TO_DO' %}-->
               <form action="{{ url_for('in_progress_item', id=item.id) }}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-warning">Mark as In-Progress</button>
               </form>
-            {% endif %}
-            {% if item.status == 'In Progress' %}
+            <!--{% endif %}-->
+          </div>
+        </div>
+        {{ item.description }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <h2>In Progress</h2>
+
+    <ul class="list-group mb-4">
+      {% for item in view_model.doing_items %}
+      <li class="list-group-item">
+        <div class="row">
+          <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
+          <div class="col-auto">
+            <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <!--{% if item.status == 'In Progress' %}-->
               <form action="{{ url_for('complete_item', id=item.id) }}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-success">Mark as Completed</button>
               </form>
-            {% endif %}
-            {% if item.status == 'Completed' %}
+            <!--{% endif %}-->
+          </div>
+        </div>
+        {{ item.description }}
+      </li>
+      {% endfor %}
+    </ul>
+
+    <h2>Completed</h2>
+
+    <ul class="list-group mb-4">
+      {% for item in view_model.done_items %}
+      <li class="list-group-item">
+        <div class="row">
+          <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
+          <div class="col-auto">
+            <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+            <!--{% if item.status == 'Completed' %}-->
               <form action="{{ url_for('uncomplete_item', id=item.id) }}" method="post" class="d-inline">
                 <button type="submit" class="btn btn-primary">Mark as Incomplete</button>
               </form>
-            {% endif %}
+            <!--{% endif %}-->
           </div>
         </div>
         {{ item.description }}
