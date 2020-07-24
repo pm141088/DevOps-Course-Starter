@@ -6,8 +6,7 @@ app = Flask(__name__)
 
 @app.route('/') 
 def index():
-    items = sorted(trello.get_items(), key=lambda i: i.status, reverse=True)
-    #return render_template('index.html', items=items)
+    items = trello.get_items()
     item_view_model = ViewModel(items)
     return render_template('index.html', view_model=item_view_model)
 
