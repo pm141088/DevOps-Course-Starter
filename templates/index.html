@@ -66,24 +66,55 @@
     </ul>
 
     <h2>Done</h2>
-    <ul class="list-group mb-4">
-      {% for item in view_model.done_items %}
-      <li class="list-group-item">
-        <div class="row">
-          <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
-          <div class="col-auto">
-            <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
-              <button type="submit" class="btn btn-danger">Delete</button>
-            </form>
-            <form action="{{ url_for('uncomplete_item', id=item.id) }}" method="post" class="d-inline">
-              <button type="submit" class="btn btn-primary">Mark as Incomplete</button>
-            </form>
-          </div>
-        </div>
-        {{ item.description }}
-      </li>
-      {% endfor %}
-    </ul>
+      {% if view_model.show_all_done_items %}
+      <ul class="list-group mb-4">
+        {% for item in view_model.done_items %}
+          <li class="list-group-item">
+            <div class="row">
+              <span class="col">{{ item.title }}</span>
+              <div class="col-auto">
+                <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {{ item.description }}
+          </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <ul class="list-group mb-4">
+        {% for item in view_model.recent_done_items %}
+          <li class="list-group-item">
+            <div class="row">
+              <span class="col">{{ item.title }}</span>
+              <div class="col-auto">
+                <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {{ item.description }}
+          </li>
+        {% endfor %}
+        <details>
+          <summary>View older items</summary>
+          {% for item in view_model.older_done_items %}
+          <li class="list-group-item">
+            <div class="row">
+              <span class="col">{{ item.title }}</span>
+              <div class="col-auto">
+                <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+            {{ item.description }}
+          </li>
+        {% endfor %}
+        </details>
+      </ul>
+      {% endif %}
+    </div>
   </div>
-</div>
 {% endblock %}
