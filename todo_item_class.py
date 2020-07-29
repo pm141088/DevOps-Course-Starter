@@ -1,6 +1,9 @@
 from trello_config import Config
-from dateutil import parser
+from datetime import datetime
 from enum import Enum
+
+def trello_date(date_string):
+    return datetime.strptime(date_string, '%Y-%m-%dT%H:%M:%S.%fZ')
 
 class Status(Enum):
     TO_DO = "To Do"
@@ -12,8 +15,8 @@ class ToDoItem:
         self.title = title
         self.status = status
         self.description = description
-        self.last_modified = parser.isoparse(last_modified).replace(tzinfo=None)
+        self.last_modified = last_modified
 
     @classmethod
     def fromTrelloCard(cls, card, status):
-        return cls(card['id'], card['name'], status, card['desc'], card['dateLastActivity'])
+        return cls(card['id'], card['name'], status, card['desc'], trello_date(card['dateLastActivity']))
