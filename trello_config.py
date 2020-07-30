@@ -1,17 +1,22 @@
 """Trello configuration class."""
 import os
+from dotenv import find_dotenv, load_dotenv
 
 class Config:
     """Base configuration variables."""
-    TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
-    TRELLO_API_TOKEN = os.environ.get('TRELLO_API_TOKEN')
-    TRELLO_BOARD_ID = os.environ.get('TRELLO_BOARD_ID')
-    TRELLO_TODO_LIST_ID = os.environ.get('TRELLO_TODO_LIST_ID')
-    TRELLO_DOING_LIST_ID = os.environ.get('TRELLO_DOING_LIST_ID')
-    TRELLO_DONE_LIST_ID = os.environ.get('TRELLO_DONE_LIST_ID')
+    def __init__(self, dotenv):
+        file_path = find_dotenv(dotenv)
+        load_dotenv(file_path, override=True)
 
-    if not (TRELLO_API_KEY and TRELLO_API_TOKEN):
-        raise ValueError("No Trello credentials set for Flask application. Did you forget to run setup.sh?")
+        API_KEY = os.environ.get('TRELLO_API_KEY')
+        API_TOKEN = os.environ.get('TRELLO_API_TOKEN')
 
-    if not (TRELLO_BOARD_ID and TRELLO_TODO_LIST_ID and TRELLO_DOING_LIST_ID and TRELLO_DONE_LIST_ID):
-        raise ValueError("No Trello ID's set for flask application. Did you forget to run setup.sh?")
+        if dotenv == '.env' and (not (API_KEY and API_TOKEN)):
+            raise ValueError("No Trello credentials set for Flask application. Did you forget to run setup.sh?")
+
+        self.api_key = API_KEY
+        self.api_token = API_TOKEN
+        self.board_id = os.environ.get('TRELLO_BOARD_ID')
+        self.todo_list_id = os.environ.get('TRELLO_TODO_LIST_ID')
+        self.doing_list_id = os.environ.get('TRELLO_DOING_LIST_ID')
+        self.done_list_id = os.environ.get('TRELLO_DONE_LIST_ID')
