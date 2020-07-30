@@ -18,21 +18,21 @@ class MockCardsResponse:
     def json():
         return [
             {
-                "id": "5f172806e7760645c70be232",
+                "id": "5ef7a4f991ad48544d0f2a53",
                 "idList": "todo_list_id",
                 "name": "This is a to do item",
                 "desc": "Description for to do item",
                 "dateLastActivity": "2020-07-30T12:52:06.278Z"
             },
             {
-                "id": "5f172806e7760645c70be233",
+                "id": "5ef7a4f991ad48544d0f2a54",
                 "idList": "doing_list_id",
                 "name": "This item is currently in progress",
                 "desc": "Description for item in progress",
                 "dateLastActivity": "2020-07-30T12:52:06.278Z"
             },
             {
-                "id": "5f172806e7760645c70be234",
+                "id": "5ef7a4f991ad48544d0f2a55",
                 "idList": "done_list_id",
                 "name": "This item is done",
                 "desc": "Description for done item",
