@@ -1,8 +1,8 @@
 from todo_item_class import Status
-from datetime import datetime
+from datetime import datetime, timedelta
 
-def _today():
-    return datetime.date(datetime.today())
+#def _today():
+    #return datetime.date(datetime.today())
 
 class ViewModel:
     def __init__(self, items):
@@ -31,8 +31,8 @@ class ViewModel:
     
     @property
     def recent_done_items(self):
-        return [item for item in self.done_items if datetime.date(item.last_modified) == _today()]
+        return [item for item in self.done_items if datetime.now() - timedelta(days=1) < item.last_modified]
 
     @property
     def older_done_items(self):
-        return [item for item in self.done_items if datetime.date(item.last_modified) < _today()]
+        return list(set(self.done_items) - set(self.recent_done_items))
