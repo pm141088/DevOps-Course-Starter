@@ -49,7 +49,6 @@ def mock_get_requests(monkeypatch):
 
 
 def test_app(mock_get_requests, client):
-    # mock_get_requests.get("https://api.trello.com/1/boards/board_id/cards", json={})
     response = client.get('/')
     assert response.status_code == 200 
 
