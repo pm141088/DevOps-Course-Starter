@@ -4,8 +4,9 @@ import requests
 
 config = Config('.env')
 
-trello_board_url = f'https://api.trello.com/1/boards/{config.board_id}/cards'
-trello_cards_url = 'https://api.trello.com/1/cards'
+trello_web_url = 'https://api.trello.com/1'
+trello_board_url = f'{trello_web_url}/boards/{config.board_id}/cards'
+trello_cards_url = f'{trello_web_url}/cards'
 trello_auth = { 'key': config.api_key, 'token': config.api_token }
 
 def get_trello_card_url(id):
@@ -85,3 +86,22 @@ def delete_item(id):
     """
     api_method = 'DELETE'
     requests.request(api_method, get_trello_card_url(id), params=trello_auth)
+
+def create_trello_board(name):
+    """
+    Creates a new Trello board.
+
+    Args:
+        name: The name of the new board to create.
+    """
+    response = requests.request('POST', f'{trello_web_url}/boards', params={**trello_auth, 'name': name }).json()
+    return response['id']
+
+def delete_trello_board(id):
+    """
+    Removes an existing board from Trello.
+
+    Args:
+        id: The id of the board to remove.
+    """
+    requests.request('DELETE', f'{trello_web_url}/boards/{id}', params=trello_auth)

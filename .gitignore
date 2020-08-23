@@ -114,3 +114,7 @@ env/
 
 ### Configuration files ###
 .env
+
+### Tests ###
+chromedriver.exe
+chromedriver.log
