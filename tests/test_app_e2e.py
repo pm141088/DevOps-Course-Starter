@@ -27,7 +27,7 @@ def test_app():
 
 @pytest.fixture(scope='module')
 def driver():
-    # path to your webdriver download
+    # local path to your webdriver download, please update accordingly
     with webdriver.Chrome('C:\Work\DevOps-Course-Starter\drivers\chromedriver.exe') as driver:
         yield driver
 

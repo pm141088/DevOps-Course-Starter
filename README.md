@@ -37,6 +37,10 @@ To run all unit and integration tests, run `pytest` from terminal.
 Alternatively, you can run specific tests by pointing 
 pytest to a folder e.g. `pytest tests`.
 
+### Instructions to run e2e test using Selenium ###
+Chromedriver.exe is necessary for the e2e tests to run, please add this to the drivers folder upon checkout.
+Line #31 in the test_app_e2e.py file will need to be updated with the path to the Chromedriver.
+
 ### Connecting to Trello
 
 To run the app with a Trello board, copy the contents of `env.test` into an `.env` file. 
