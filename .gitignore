@@ -116,4 +116,4 @@ env/
 .env
 
 ### Vagrant ###
-.Vagrant
+.vagrant
