@@ -115,6 +115,9 @@ env/
 ### Configuration files ###
 .env
 
+### Vagrant ###
+.vagrant
+
 ### Tests ###
 chromedriver.exe
 chromedriver.log
