@@ -1,21 +1,43 @@
 # DevOps Apprenticeship: Project Exercise
 
-## Getting started
+## System Requirements
 
-The project uses a virtual environment to isolate package dependencies. To create the virtual environment and install required packages, run the following from a bash shell terminal:
+The project uses Poetry for Python to created an isolated environment and manage package depencies. Poetry is a tool for dependency management and packaging in Python.
 
-### On macOS and Linux
+You will need to have an official distribution of Python version ^3.7. Follow instructions on this page to install poetry: (https://python-poetry.org/docs/#system-requirements)
+
+### Poetry installation (Bash)
+
 ```bash
-$ source setup.sh
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 ```
-### On Windows (Using Git Bash)
+
+### Poetry installation (PowerShell)
+
+```powershell
+(Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py -UseBasicParsing).Content | python
+```
+## Dependencies
+
+This project uses a virtual environment to isolate package dependenceis. To create a virtual environment and install required packages, run the following from a shell prompt:
+
 ```bash
-$ source setup.sh --windows
+$ poetry install
 ```
 
-Once the setup script has completed and all packages have been installed, start the Flask app by running:
+You'll also need to clone a new `.env` file from the `.env.template` to store local configuration options. This is a one-time operation on first setup:
+
 ```bash
-$ flask run
+$ cp .env.template .env  # (first time only)
+```
+
+The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change).
+
+## Running the App
+
+Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
+```bash
+$ poetry run flask run
 ```
 
 You should see output similar to the following:
@@ -30,7 +52,7 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-### Instructions to run tests
+### Running tests
 
 To run all unit and integration tests, run `pytest` from terminal.
 
@@ -40,15 +62,3 @@ pytest to a folder e.g. `pytest tests`.
 ### Instructions to run e2e test using Selenium ###
 Chromedriver.exe is necessary for the e2e tests to run, please add this to the drivers folder upon checkout.
 Line #31 in the test_app_e2e.py file will need to be updated with the path to the Chromedriver.
-
-### Connecting to Trello
-
-To run the app with a Trello board, copy the contents of `env.test` into an `.env` file. 
-Copy and paste your Trello API key and token from (https://trello.com/app-key) into the respective values.
-You will also need to enter in the Trello board ID, to do list ID, doing list id and done list id.
-TRELLO_API_KEY=
-TRELLO_API_TOKEN=
-TRELLO_BOARD_ID=
-TRELLO_TODO_LIST_ID=
-TRELLO_DOING_LIST_ID=
-TRELLO_DONE_LIST_ID=
