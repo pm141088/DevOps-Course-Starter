@@ -15,4 +15,13 @@ COPY . /src/
 
 RUN poetry install --no-root --no-dev
 
-ENTRYPOINT ["poetry", "run", "flask", "run", "-h", "0.0.0.0", "-p", "5000"]
+FROM base as dev
+ENV FLASK_ENV=development
+
+ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"] 
+
+FROM base as prod
+ENV FLASK_ENV=production
+
+ENTRYPOINT ["poetry", "run", "gunicorn", "app:create_app()", "--bind", "0.0.0.0:80"]
+
