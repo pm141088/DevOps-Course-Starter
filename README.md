@@ -52,13 +52,38 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-### Running tests
+### Connecting to Trello
 
-To run all unit and integration tests, run `pytest` from terminal.
+To run the app with a Trello board, copy the contents of `env.template` into an `.env` file. 
+Copy and paste your Trello API key and token from (https://trello.com/app-key) into the respective values.
+You will also need to enter Trello board ID, to do list ID, doing list id and done list id.
 
-Alternatively, you can run specific tests by pointing 
-pytest to a folder e.g. `pytest tests`.
+## Running the App in a VM
 
-### Instructions to run e2e test using Selenium ###
-Chromedriver.exe is necessary for the e2e tests to run, please add this to the drivers folder upon checkout.
+### Vagrant
+
+You can run this on a VM by running `vagrant up` at the root. Once the command has finished, as above you can visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app. Any logs from this are saved to `applogs.txt`.
+
+### Docker
+
+During first time setup, run the following commands:
+
+Dev:
+To run the app on Docker in development mode (with hot reloading), run `docker-compose up --build dev-app`
+
+Prod:
+To run the app on Docker in production mode, run `docker-compose up --build prod-app`. 
+
+In subsequent runs you can omit the `--build` flag. Once again the app can then be found at [`http://localhost:5000/`]
+
+## Testing
+
+### Prerequisites to run e2e test using Selenium ###
+
+You will need a `Chromedriver.exe` in order to run e2e tests, please add this to the drivers folder upon checkout.
 Line #31 in the test_app_e2e.py file will need to be updated with the path to the Chromedriver.
+
+### Running the tests
+To run all tests, run `pytest`
+To run integration tests, run `pytest test_app.py`
+To run end-to-end tests, run `pytest test_app_e2e.py`

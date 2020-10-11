@@ -1,13 +1,26 @@
 version: "3.8"
 
 services:
-  todo-app:
+  dev-app:
     build:
       context: .
-      dockerfile: Dockerfile
-      target: dev
+      target: development
     image: todo-app:dev
+    container_name: todo-app-dev
     env_file:
       - .env
     ports:
       - 8080:5000
+    volumes:
+      - ${PWD-.}:/src
+  
+  prod-app:
+    build:
+      context: .
+      target: production
+    image: todo-app:prod
+    container_name: todo-app-prod
+    env_file: 
+     - .env
+    ports:
+      - "8080:8000"
