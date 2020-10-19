@@ -121,3 +121,6 @@ env/
 ### Tests ###
 chromedriver.exe
 chromedriver.log
+
+### App Logs ###
+applogs.txt
