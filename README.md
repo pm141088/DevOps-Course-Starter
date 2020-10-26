@@ -87,3 +87,7 @@ Line #31 in the test_app_e2e.py file will need to be updated with the path to th
 To run all tests, run `pytest`
 To run integration tests, run `pytest test_app.py`
 To run end-to-end tests, run `pytest test_app_e2e.py`
+
+### Documentation
+
+A collection of C4 model Architecture diagrams have been created to visualise the hierachy of abstractions in the application. These include a Context, Container, and Component diagram. These can be viewed at `https://app.diagram.net`.
