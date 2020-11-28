@@ -1,2 +1,14 @@
-script:
-  - touch .env && docker-compose up --build dev-app 
+before_script:
+  - touch .env
+
+jobs:
+  include:
+  - stage: "Tests"
+    name: "Unit Testing"
+    env: TEST_ARG=tests
+  - name: "Integration Testing"
+    env: TEST_ARG=tests_integration
+  - name: "End-To-End Testing"
+    env: TEST_ARG=tests_e2e
+
+script: docker-compose run test $TEST_ARG
