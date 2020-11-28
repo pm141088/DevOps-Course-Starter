@@ -84,9 +84,10 @@ You will need a `Chromedriver.exe` in order to run e2e tests, please add this to
 Line #31 in the test_app_e2e.py file will need to be updated with the path to the Chromedriver.
 
 ### Running the tests
-To run all tests, run `pytest`
-To run integration tests, run `pytest test_app.py`
-To run end-to-end tests, run `pytest test_app_e2e.py`
+To run all tests, run `pytest`.
+To runn unit tests, run `pytest tests`.
+To run integration tests, run `pytest tests_integration`.
+To run end-to-end tests, run `pytest tests_e2e`.
 
 ### Documentation
 
