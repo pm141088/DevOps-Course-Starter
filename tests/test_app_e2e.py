@@ -27,8 +27,11 @@ def test_app():
 
 @pytest.fixture(scope='module')
 def driver():
-    # local path to your webdriver download, please update accordingly
-    with webdriver.Chrome('C:\Work\DevOps-Course-Starter\drivers\chromedriver.exe') as driver:
+    opts = webdriver.ChromeOptions()
+    opts.add_argument('--headless')
+    opts.add_argument('--no-sandbox')
+    opts.add_argument('--disable-dev-shm-usage')
+    with webdriver.Chrome('./chromedriver', options=opts) as driver:
         yield driver
 
 def test_app_home(driver, test_app):

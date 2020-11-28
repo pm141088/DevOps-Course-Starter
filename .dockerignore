@@ -1,7 +1,11 @@
+.pytest_cache
+.vagrant
+.vscode
+env
 .env
 .env.template
 .env.test
 .gitignore
-.vagrant/
-env/
+applogs.txt
+poetry.lock
 Vagrantfile
