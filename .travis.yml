@@ -6,7 +6,7 @@ before_script:
 
 script:
   - docker run test tests
-  - docker run test integration_tests
+  - docker run test tests_integration
   - >
     docker run
     -e TRELLO_API_BASE_URL
