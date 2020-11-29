@@ -1,14 +1,16 @@
+services:
+- docker
+
 before_script:
-  - touch .env
+  - docker build --target test --tag test .
 
-jobs:
-  include:
-  - stage: "Tests"
-    name: "Unit Testing"
-    env: TEST_ARG=tests
-  - name: "Integration Testing"
-    env: TEST_ARG=tests_integration
-  - name: "End-To-End Testing"
-    env: TEST_ARG=tests_e2e
-
-script: docker-compose run test $TEST_ARG
+script:
+  - docker run test tests
+  - docker run test integration_tests
+  - >
+    docker run
+    -e TRELLO_API_BASE_URL
+    -e TRELLO_API_KEY
+    -e TRELLO_API_TOKEN
+    -e TRELLO_BOARD_ID
+    test tests_e2e
