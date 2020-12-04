@@ -92,10 +92,10 @@ To run end-to-end tests, run `pytest tests_e2e`.
 ### Running the tests in a Docker container 
 
 To run the tests in a Docker container, run  `docker build --target test --tag test .` to build the container and
- * `docker run test tests` to run all the unit tests
- * `docker run test tests_integration` to run all the integration tests
- * `docker run --env-file .env test tests_e2e` to run all the end-to-end tests
- * `docker run --env-file .env test` to run all the tests
+ * `docker run test tests` to run all the unit tests.
+ * `docker run test tests_integration` to run all the integration tests.
+ * `docker run --env-file .env test tests_e2e` to run all the end-to-end tests.
+ * `docker run --env-file .env test` to run all the tests.
 
 ### Documentation
 

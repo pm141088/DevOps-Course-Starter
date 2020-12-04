@@ -3,13 +3,14 @@ import os
 from threading import Thread
 from selenium import webdriver
 
-import trello_items
+from trello_items import Trello
 import app
 
 @pytest.fixture(scope='module')
 def test_app():
     # Create the new board & update the board id environment variable
-    board_id = trello_items.create_trello_board("TEST BOARD")
+    trello = Trello('.env')
+    board_id = trello.create_trello_board("TEST BOARD")
     os.environ['TRELLO_BOARD_ID'] = board_id
 
     # construct the new application
@@ -23,7 +24,7 @@ def test_app():
 
     # Tear Down
     thread.join(1)
-    trello_items.delete_trello_board(board_id)
+    trello.delete_trello_board(board_id)
 
 @pytest.fixture(scope='module')
 def driver():
