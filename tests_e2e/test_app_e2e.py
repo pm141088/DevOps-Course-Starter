@@ -1,16 +1,46 @@
 import pytest
 import os
+import time
 from threading import Thread
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
-from trello_items import Trello
+from dotenv import find_dotenv, load_dotenv
+import requests
 import app
+
+load_dotenv()
+TRELLO_API_BASE_URL = 'https://api.trello.com/1'
+TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
+TRELLO_API_TOKEN = os.environ.get('TRELLO_API_TOKEN')
+
+def create_trello_board():
+    response = requests.post(
+        url=f'{TRELLO_API_BASE_URL}/boards',
+        params={
+            'key': TRELLO_API_KEY,
+            'token': TRELLO_API_TOKEN,
+            'name': 'Selenium Test Board'
+        }
+    )
+    return response.json()['id']
+
+
+def delete_trello_board(board_id):
+    requests.delete(
+        url=f'{TRELLO_API_BASE_URL}/boards/{board_id}',
+        params={
+            'key': TRELLO_API_KEY,
+            'token': TRELLO_API_TOKEN,
+        }
+    )
+
 
 @pytest.fixture(scope='module')
 def test_app():
+    
     # Create the new board & update the board id environment variable
-    trello = Trello('.env')
-    board_id = trello.create_trello_board("TEST BOARD")
+    board_id = create_trello_board()
     os.environ['TRELLO_BOARD_ID'] = board_id
 
     # construct the new application
@@ -24,7 +54,7 @@ def test_app():
 
     # Tear Down
     thread.join(1)
-    trello.delete_trello_board(board_id)
+    delete_trello_board(board_id)
 
 @pytest.fixture(scope='module')
 def driver():
@@ -35,6 +65,7 @@ def driver():
     with webdriver.Chrome('./chromedriver', options=opts) as driver:
         yield driver
 
-def test_app_home(driver, test_app):
-    driver.get('http://localhost:5000')
+def test_task_journey(driver, test_app):
+    driver.implicitly_wait(3)
+    driver.get('http://localhost:5000/')
     assert driver.title == 'To-Do App'
