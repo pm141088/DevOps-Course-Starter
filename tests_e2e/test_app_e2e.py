@@ -1,18 +1,17 @@
 import pytest
 import os
-import time
 from threading import Thread
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-
-from dotenv import find_dotenv, load_dotenv
+from dotenv import load_dotenv
 import requests
+from trello_items import Trello
 import app
 
 load_dotenv()
 TRELLO_API_BASE_URL = 'https://api.trello.com/1'
 TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
 TRELLO_API_TOKEN = os.environ.get('TRELLO_API_TOKEN')
+
 
 def create_trello_board():
     response = requests.post(
@@ -35,10 +34,8 @@ def delete_trello_board(board_id):
         }
     )
 
-
 @pytest.fixture(scope='module')
 def test_app():
-    
     # Create the new board & update the board id environment variable
     board_id = create_trello_board()
     os.environ['TRELLO_BOARD_ID'] = board_id
@@ -55,6 +52,7 @@ def test_app():
     # Tear Down
     thread.join(1)
     delete_trello_board(board_id)
+
 
 @pytest.fixture(scope='module')
 def driver():

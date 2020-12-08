@@ -78,10 +78,9 @@ In subsequent runs you can omit the `--build` flag. Once again the app can then 
 
 ## Testing
 
-### Prerequisites to run e2e test using Selenium ###
+### Prerequisites
 
-You will need a `Chromedriver.exe` in order to run e2e tests, please add this to the drivers folder upon checkout.
-Line #31 in the test_app_e2e.py file will need to be updated with the path to the Chromedriver.
+You will need a `Chromedriver.exe` file at the project root and Chrome installed. 
 
 ### Running the tests
 To run all tests, run `pytest`.
