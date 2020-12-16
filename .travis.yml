@@ -21,3 +21,9 @@ script:
 
 after_script:
   - docker push $DOCKER_HUB_USERNAME/todo-app:latest
+
+deploy:
+  provider: script
+  script: bash deploy.sh
+  on:
+    branch: exercise-8
