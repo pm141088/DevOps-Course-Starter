@@ -1,8 +1,12 @@
 services:
 - docker
 
+before-install:
+  - echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_USERNAME --password-stdin
+
 before_script:
   - docker build --target test --tag test .
+  - docker build --tag $DOCKER_HUB_USERNAME/todo-app:latest --target production .
 
 script:
   - docker run test tests
@@ -14,3 +18,6 @@ script:
     -e TRELLO_API_TOKEN
     -e TRELLO_BOARD_ID
     test tests_e2e
+
+after_script:
+  - docker push $DOCKER_HUB_USERNAME/todo-app:latest
