@@ -3,7 +3,7 @@ services:
 
 before_install:
   - echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-  - heroku container:login
+  - docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com 
 
 before_script:
   - docker build --target test --tag test .
