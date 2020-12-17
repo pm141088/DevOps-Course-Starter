@@ -17,8 +17,8 @@ ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"]
 
 # Production Stage
 FROM base as production
-EXPOSE 8000
-ENTRYPOINT ["poetry", "run", "gunicorn", "app:create_app()", "--bind", "0.0.0.0:8000"]
+EXPOSE $PORT
+ENTRYPOINT bash ./run_prod.sh
 
 # Testing Stage
 FROM base as test
