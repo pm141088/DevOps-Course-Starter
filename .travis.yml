@@ -1,8 +1,9 @@
 services:
 - docker
 
-before-install:
+before_install:
   - echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_USERNAME --password-stdin
+  - heroku container:login
 
 before_script:
   - docker build --target test --tag test .
@@ -17,6 +18,7 @@ script:
     -e TRELLO_API_KEY
     -e TRELLO_API_TOKEN
     -e TRELLO_BOARD_ID
+    -e PORT
     test tests_e2e
 
 after_script:
