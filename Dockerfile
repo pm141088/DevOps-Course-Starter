@@ -18,6 +18,7 @@ ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"]
 # Production Stage
 FROM base as production
 EXPOSE $PORT
+RUN chmod 777 run_prod.sh
 ENTRYPOINT bash ./run_prod.sh
 
 # Testing Stage
