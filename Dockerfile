@@ -17,9 +17,9 @@ ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"]
 
 # Production Stage
 FROM base as production
+RUN pip install gunicorn flask
 EXPOSE $PORT
-RUN chmod 777 run_prod.sh
-ENTRYPOINT bash ./run_prod.sh
+ENTRYPOINT ["gunicorn -b 0.0.0.0:$PORT 'app:create_app()'"]
 
 # Testing Stage
 FROM base as test
