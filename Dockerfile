@@ -17,7 +17,7 @@ ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"]
 
 # Production Stage
 FROM base as production
-RUN pip install gunicorn flask
+RUN pip install gunicorn flask python-dotenv
 EXPOSE $PORT
 ENTRYPOINT ["gunicorn -b 0.0.0.0:$PORT 'app:create_app()'"]
 
