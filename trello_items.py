@@ -65,7 +65,7 @@ class Trello:
             id: The id of the item to mark as complete.
         """
         api_method = 'PUT'
-        requests.request(api_method, self.get_trello_card_url(id), params={**self.trello_auth, 'idList': self.doing_list_id })
+        requests.request(api_method, self.get_trello_card_url(id), params={**self.trello_auth, 'idList': self.config.doing_list_id })
 
     def uncomplete_item(self, id):
         """
@@ -75,7 +75,7 @@ class Trello:
             id: the ID of the item
         """
         api_method = 'PUT'
-        requests.request(api_method, self.get_trello_card_url(id), params={**self.trello_auth, 'idList': self.todo_list_id })
+        requests.request(api_method, self.get_trello_card_url(id), params={**self.trello_auth, 'idList': self.config.todo_list_id })
 
     def delete_item(self, id):
         """
