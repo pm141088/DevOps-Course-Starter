@@ -1,0 +1,15 @@
+services:
+- docker
+
+before_script:
+  - docker build --target test --tag test .
+
+script:
+  - docker run test tests
+  - docker run test tests_integration
+  - >
+    docker run
+    -e TRELLO_API_BASE_URL
+    -e TRELLO_API_KEY
+    -e TRELLO_API_TOKEN
+    test tests_e2e
