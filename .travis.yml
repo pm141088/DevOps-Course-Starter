@@ -12,5 +12,4 @@ script:
     -e TRELLO_API_BASE_URL
     -e TRELLO_API_KEY
     -e TRELLO_API_TOKEN
-    -e TRELLO_BOARD_ID
     test tests_e2e
