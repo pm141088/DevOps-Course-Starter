@@ -7,5 +7,4 @@ env
 .env.test
 .gitignore
 applogs.txt
-poetry.lock
 Vagrantfile

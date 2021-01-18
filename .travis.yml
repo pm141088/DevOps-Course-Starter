@@ -20,7 +20,6 @@ script:
     -e TRELLO_API_KEY
     -e TRELLO_API_TOKEN
     -e TRELLO_BOARD_ID
-    -e PORT
     test tests_e2e
 
 after_script:
@@ -30,4 +29,4 @@ deploy:
   provider: script
   script: bash deploy.sh
   on:
-    branch: exercise-8
+    branch: master
