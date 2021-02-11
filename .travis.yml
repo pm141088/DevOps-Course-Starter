@@ -16,10 +16,9 @@ script:
   - docker run test tests_integration
   - >
     docker run
-    -e TRELLO_API_BASE_URL
-    -e TRELLO_API_KEY
-    -e TRELLO_API_TOKEN
-    -e TRELLO_BOARD_ID
+    -e MONGO_DB_USERNAME
+    -e MONGO_DB_PASSWORD
+
     test tests_e2e
 
 after_script:
@@ -29,4 +28,4 @@ deploy:
   provider: script
   script: bash deploy.sh
   on:
-    branch: master
+    branch: exercise-9
