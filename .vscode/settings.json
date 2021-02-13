@@ -11,5 +11,6 @@
         ".",
         "-p",
         "test_*.py"
-    ]
+    ],
+    "python.pythonPath": "c:\\Work\\todo_app\\env\\Scripts\\python.exe"
 }
