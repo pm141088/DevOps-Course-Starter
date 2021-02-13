@@ -74,7 +74,7 @@ To run the app on Docker in development mode (with hot reloading), run `docker-c
 Prod:
 To run the app on Docker in production mode, run `docker-compose up --build prod-app`. 
 
-In subsequent runs you can omit the `--build` flag. Once again the app can then be found at [`http://localhost:5000/`]
+In subsequent runs you can omit the `--build` flag. Once again the app can then be found at [`http://localhost:8080/`]
 
 ## Testing
 

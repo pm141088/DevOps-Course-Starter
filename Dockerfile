@@ -6,20 +6,20 @@ FROM python:3.8.5-buster as base
 RUN pip install poetry
 
 # This is the active directory where commands will execute
-COPY . /src
+COPY . ./src
 WORKDIR /src
 RUN poetry install
-
-# Development Stage
-FROM base as development
-EXPOSE 5000
-ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"] 
 
 # Production Stage
 FROM base as production
 RUN pip install gunicorn flask pymongo[srv]
 EXPOSE $PORT
-ENTRYPOINT ["gunicorn -b 0.0.0.0:$PORT 'app:create_app()'"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "wsgi:app"]
+
+# Development Stage
+FROM base as development
+EXPOSE 5000
+ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0", "-p", "5000"] 
 
 # Testing Stage
 FROM base as test

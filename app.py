@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sys
-import logging 
-#from trello_items import Trello
+import logging
 from view_model import ViewModel
 
 from mongo_db.index import get_db_collection
@@ -11,7 +10,6 @@ date_time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 def create_app():
     app = Flask(__name__)
-    #trello = Trello(dotenv)
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
