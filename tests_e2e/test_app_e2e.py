@@ -1,47 +1,32 @@
 import pytest
 import os
+import requests
+import logging
+
 from threading import Thread
 from selenium import webdriver
-from dotenv import load_dotenv
-import requests
-from trello_items import Trello
-import app
+from selenium.webdriver.common.keys import Keys
+from dotenv import find_dotenv, load_dotenv
+from app import create_app
+from mongo_db.index import get_db_collection
+from entity.status import Status
 
-load_dotenv()
-TRELLO_API_BASE_URL = 'https://api.trello.com/1'
-TRELLO_API_KEY = os.environ.get('TRELLO_API_KEY')
-TRELLO_API_TOKEN = os.environ.get('TRELLO_API_TOKEN')
-
-
-def create_trello_board():
-    response = requests.post(
-        url=f'{TRELLO_API_BASE_URL}/boards',
-        params={
-            'key': TRELLO_API_KEY,
-            'token': TRELLO_API_TOKEN,
-            'name': 'Selenium Test Board'
-        }
-    )
-    return response.json()['id']
-
-
-def delete_trello_board(board_id):
-    requests.delete(
-        url=f'{TRELLO_API_BASE_URL}/boards/{board_id}',
-        params={
-            'key': TRELLO_API_KEY,
-            'token': TRELLO_API_TOKEN,
-        }
-    )
+log = logging.getLogger('app')
 
 @pytest.fixture(scope='module')
 def test_app():
-    # Create the new board & update the board id environment variable
-    board_id = create_trello_board()
-    os.environ['TRELLO_BOARD_ID'] = board_id
+    file_path = find_dotenv()
+    load_dotenv(file_path, override=True)
 
-    # construct the new application
-    application = app.create_app()
+    # Create a temporary mongoDB test collection
+    os.environ['MONGO_DB_DATABASE_NAME'] = 'TODO_APP_E2E_TEST' 
+    collection = get_db_collection() 
+    
+    # Drop the collection in case there is data in there already
+    collection.drop()
+
+    # Create the new app
+    application = create_app()
 
     # start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
@@ -49,9 +34,9 @@ def test_app():
     thread.start()
     yield application
 
-    # Tear Down
+    # Tear down app and test collection
     thread.join(1)
-    delete_trello_board(board_id)
+    collection.drop()
 
 
 @pytest.fixture(scope='module')
@@ -67,3 +52,14 @@ def test_task_journey(driver, test_app):
     driver.implicitly_wait(3)
     driver.get('http://localhost:5000/')
     assert driver.title == 'To-Do App'
+
+    input_field = driver.find_element_by_name("item_title")
+    input_field.send_keys("TestItem")
+    input_field.send_keys(Keys.RETURN)
+
+    driver.implicitly_wait(3)
+
+    add_item = driver.find_element_by_id('title')
+    add_item.click()    
+    page_source = driver.page_source    
+    assert "TestItem" in page_source
