@@ -13,8 +13,7 @@ RUN poetry install
 # Production Stage
 FROM base as production
 RUN pip install gunicorn flask pymongo[srv]
-EXPOSE $PORT
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "wsgi:app"]
+CMD gunicorn -b 0.0.0.0:${PORT} 'wsgi:app'
 
 # Development Stage
 FROM base as development
