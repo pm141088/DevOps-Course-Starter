@@ -52,11 +52,12 @@ You should see output similar to the following:
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-### Connecting to Trello
+### MongoDB Setup / Configuration
 
-To run the app with a Trello board, copy the contents of `env.template` into an `.env` file. 
-Copy and paste your Trello API key and token from (https://trello.com/app-key) into the respective values.
-You will also need to enter Trello board ID, to do list ID, doing list id and done list id.
+This application is configured to use a MongoDB cluster which was created using the 'free to use' MongoDB Atlas service. When creating the cluster, please select the 'username and password' authentication method and make sure you add your local IP address when prompted (there's a button to do this automatically) so you can access the cluster from your local machine.
+
+To run the app with MongoDB, copy the contents of `env.template` into an `.env` file and update the relvant environment variables.
+You will also need to update the MongoDB cluster name found in dbClientUri on index.py 
 
 ## Running the App in a VM
 
