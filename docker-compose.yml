@@ -24,3 +24,10 @@ services:
      - .env
     ports:
       - "8080:8000"
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    env_file: .env

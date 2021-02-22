@@ -2,6 +2,7 @@ import pytest
 import os
 import requests
 import logging
+import uuid
 
 from threading import Thread
 from selenium import webdriver
@@ -19,7 +20,7 @@ def test_app():
     load_dotenv(file_path, override=True)
 
     # Create a temporary mongoDB test collection
-    os.environ['MONGO_DB_DATABASE_NAME'] = 'TODO_APP_E2E_TEST' 
+    os.environ['MONGO_DB_DATABASE_NAME'] = f'{uuid.uuid4()}'
     collection = get_db_collection() 
     
     # Drop the collection in case there is data in there already
@@ -53,13 +54,23 @@ def test_task_journey(driver, test_app):
     driver.get('http://localhost:5000/')
     assert driver.title == 'To-Do App'
 
-    input_field = driver.find_element_by_name("item_title")
-    input_field.send_keys("TestItem")
-    input_field.send_keys(Keys.RETURN)
+    # Create a new item
+    add_item_input = driver.find_element_by_name("item_title")
+    add_item_input.send_keys("TestItem")
+    
+    add_item_button = driver.find_element_by_xpath('//button[text()="Add Item"]')
+    add_item_button.click()
 
     driver.implicitly_wait(3)
 
-    add_item = driver.find_element_by_id('title')
-    add_item.click()    
-    page_source = driver.page_source    
-    assert "TestItem" in page_source
+    # Mark item as In Progress
+    in_progress_item_button = driver.find_element_by_xpath('//button[text()="Mark as In-Progress"]')
+    in_progress_item_button.click()
+
+    # Complete item
+    complete_item_button = driver.find_element_by_xpath('//button[text()="Mark as Completed"]')
+    complete_item_button.click()
+
+    # Delete item
+    delete_item_button = driver.find_element_by_xpath('//button[text()="Delete"]')
+    delete_item_button.click()
