@@ -29,7 +29,7 @@
     <ul class="list-group mb-4">
       {% for item in view_model.to_do_items %}
       <li class="list-group-item">
-        <div class="row">
+        <div class="row to-do-item">
           <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
           <div class="col-auto">
             <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
