@@ -19,6 +19,8 @@ def test_app():
     file_path = find_dotenv()
     load_dotenv(file_path, override=True)
 
+    os.environ['LOGIN_DISABLED'] = 'True'
+
     # Create a temporary mongoDB test collection
     os.environ['MONGO_DB_DATABASE_NAME'] = f'{uuid.uuid4()}'
     collection = get_db_collection() 

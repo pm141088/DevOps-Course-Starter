@@ -22,6 +22,8 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
+    app.config['LOGIN_DISABLED'] = 'True'
+
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
     app.logger.setLevel(logging.DEBUG)
