@@ -4,15 +4,26 @@ FROM python:3.8.5-buster as base
 
 # This is the active directory where commands will execute
 WORKDIR /src
-COPY poetry.lock pyproject.toml /src/
+
+RUN apt-get update && apt-get -y install \
+    # Poetry install deps
+    curl
+
+ENV POETRY_VERSION=1.0.10
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+ENV PATH="/root/.poetry/bin:${PATH}"
+
+COPY ./pyproject.toml ./pyproject.toml
+COPY ./poetry.lock ./poetry.lock
+RUN poetry config virtualenvs.create false --local
 
 # Production Stage
 FROM base as production
-RUN pip install poetry \
-    && poetry config virtualenvs.create false
-RUN poetry install --no-root --no-dev
+
+EXPOSE 8000
+ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:$PORT 'wsgi:app'
+RUN poetry install --no-dev --no-root 
 COPY . /src/
-ENTRYPOINT gunicorn --bind 0.0.0.0:${PORT} wsgi:app
 
 # Development Stage
 FROM base as development
