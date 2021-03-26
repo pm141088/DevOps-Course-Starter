@@ -1,6 +1,7 @@
 import pytest
 import requests
 import json
+import os
 
 from dotenv import find_dotenv, load_dotenv
 from app import create_app
@@ -10,9 +11,11 @@ from entity.item import Item
 def client():
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
-    
+
     # Create the new app.
     test_app = create_app()
+
+    test_app.config['LOGIN_DISABLED'] = True
     
     # Use the app to create a test_client that can be used in our tests.
     with test_app.test_client() as client:

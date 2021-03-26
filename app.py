@@ -12,7 +12,8 @@ import logging
 
 from view_model import ViewModel
 from entity.user import User
-
+from entity.role import Role
+from entity.access_level import restricted
 from mongo_db.index import get_db_collection
 from mongo_db.db_queries import get_all_items, mark_item_as_complete, mark_item_as_uncomplete, mark_item_as_in_progress, add_new_item, remove_item
 
@@ -22,7 +23,13 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
-    app.config['LOGIN_DISABLED'] = 'True'
+    #login_disabled = os.getenv('LOGIN_DISABLED') == 'False'
+    #app.config['LOGIN_DISABLED'] = login_disabled
+
+    def is_login_disabled():
+        if('LOGIN_DISABLED' in app.config):
+            return app.config['LOGIN_DISABLED']
+        return False
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
@@ -93,37 +100,45 @@ def create_app():
     @app.route('/') 
     @login_required
     def index():
+        #reader = User(current_user.get_role()) == Role.Reader
+        reader = None
+
         items = get_all_items(collection)
-        return render_template('index.html', view_model=ViewModel(items))
+        return render_template('index.html', view_model=ViewModel(items, reader), login_disabled=is_login_disabled(), current_user=current_user)
 
     @app.route('/', methods=['POST'])
     @login_required
-    def add_item():
+    @restricted
+    def add_item(): 
         title = request.form['item_title']
         description = request.form['item_description']
         add_new_item(collection, title, description)
         return redirect(url_for('index'))
-
+        
     @app.route('/items/<id>/complete', methods=['POST'])
     @login_required
+    @restricted
     def complete_item(id):
         mark_item_as_complete(collection, id)
         return redirect(url_for('index'))
 
     @app.route('/items/<id>/inprogress', methods=['POST'])
     @login_required
+    @restricted
     def in_progress_item(id):
         mark_item_as_in_progress(collection, id)
         return redirect(url_for('index'))
 
     @app.route('/items/<id>/uncomplete', methods=['POST'])
     @login_required
+    @restricted
     def uncomplete_item(id):
         mark_item_as_uncomplete(collection, id)
         return redirect(url_for('index'))
 
     @app.route('/items/delete/<id>', methods=['POST'])
     @login_required
+    @restricted
     def delete_item(id):
         remove_item(collection, id)
         return redirect(url_for('index'))
