@@ -16,4 +16,3 @@ class User(UserMixin):
     
     def get_role(self):
         return Role.Writer if self.user_id in write_access else Role.Reader
-

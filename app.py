@@ -23,13 +23,8 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
-    #login_disabled = os.getenv('LOGIN_DISABLED') == 'False'
-    #app.config['LOGIN_DISABLED'] = login_disabled
-
-    def is_login_disabled():
-        if('LOGIN_DISABLED' in app.config):
-            return app.config['LOGIN_DISABLED']
-        return False
+    login_disabled = os.getenv('LOGIN_DISABLED')
+    app.config['LOGIN_DISABLED'] = login_disabled
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
@@ -100,11 +95,11 @@ def create_app():
     @app.route('/') 
     @login_required
     def index():
-        #reader = User(current_user.get_role()) == Role.Reader
-        reader = None
+        user = User(current_user.get_id())
+        reader = (not login_disabled) and user.get_role() == Role.Reader
 
         items = get_all_items(collection)
-        return render_template('index.html', view_model=ViewModel(items, reader), login_disabled=is_login_disabled(), current_user=current_user)
+        return render_template('index.html', view_model=ViewModel(items, reader))
 
     @app.route('/', methods=['POST'])
     @login_required

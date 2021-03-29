@@ -64,11 +64,11 @@ def test_task_journey(driver, test_app):
     add_item_button.click()
 
     driver.implicitly_wait(3)
-
+    
     # Mark item as In Progress
     in_progress_item_button = driver.find_element_by_xpath('//button[text()="Mark as In-Progress"]')
     in_progress_item_button.click()
-
+    
     # Complete item
     complete_item_button = driver.find_element_by_xpath('//button[text()="Mark as Completed"]')
     complete_item_button.click()
