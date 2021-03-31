@@ -33,6 +33,16 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change).
 
+## OAuth 2.0 Setup
+
+Navigate to https://github.com/settings/applications/new and fill in the form. (Make sure you're logged into your github account!)
+
+1. Name the application e.g. DevOps ToDo App (Local)
+2. Set HomePage URL to: "http://localhost:5000/"
+3. Set Authorization callback URL to: "http://localhost:5000/login/callback"
+4. Copy the "Client ID" and set the CLIENT_ID to this value in the .env file
+5. Click on "Generate a new client secret", copy the secret and set the CLIENT_SECRET to this value in the .env file
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
