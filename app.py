@@ -23,7 +23,7 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = os.environ.get("SECRET_KEY") or os.urandom(24)
 
-    login_disabled = os.getenv('LOGIN_DISABLED')
+    login_disabled = os.getenv('LOGIN_DISABLED') == 'True'
     app.config['LOGIN_DISABLED'] = login_disabled
 
     handler = logging.StreamHandler(sys.stdout)
@@ -91,13 +91,14 @@ def create_app():
 
         if login_success:
             return redirect(url_for('index'))
+        else:
+            return "Unauthorised", 403
 
     @app.route('/') 
     @login_required
     def index():
         user = User(current_user.get_id())
         reader = (not login_disabled) and user.get_role() == Role.Reader
-
         items = get_all_items(collection)
         return render_template('index.html', view_model=ViewModel(items, reader))
 

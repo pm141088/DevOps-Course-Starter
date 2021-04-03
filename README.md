@@ -43,6 +43,13 @@ Navigate to https://github.com/settings/applications/new and fill in the form. (
 4. Copy the "Client ID" and set the CLIENT_ID to this value in the .env file
 5. Click on "Generate a new client secret", copy the secret and set the CLIENT_SECRET to this value in the .env file
 
+To application runs with OAuth by default, to disable set `LOGIN_DISABLED=True` in your `.env` file.
+
+There are two authorisation roles:
+• reader - These users can view to-dos but not change or create new ones
+• writer - These users can also change existing to-dos or create new ones
+By default all users will have Read Only permmissions on the app unless the user is added to the hardcoded list `writer_access` in `user.py`. 
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
