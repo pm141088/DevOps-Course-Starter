@@ -16,9 +16,7 @@ script:
   - docker run test tests_integration
   - >
     docker run
-    -e MONGO_DB_USERNAME
-    -e MONGO_DB_PASSWORD
-
+    -e MONGO_DB_PRIMARY_CONNECTION_STRING
     test tests_e2e
 
 after_script:
@@ -28,4 +26,4 @@ deploy:
   provider: script
   script: bash deploy.sh
   on:
-    branch: exercise-10
+    branch: master

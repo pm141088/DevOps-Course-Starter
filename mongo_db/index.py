@@ -3,7 +3,7 @@ import pymongo
 
 
 def get_db_collection():
-    dbClientUri = f"mongodb+srv://{os.getenv('MONGO_DB_USERNAME')}:{os.getenv('MONGO_DB_PASSWORD')}@cluster0.vslql.mongodb.net/database?retryWrites=true&w=majority"
+    dbClientUri = os.getenv('MONGO_DB_PRIMARY_CONNECTION_STRING')
     databaseName = os.getenv('MONGO_DB_DATABASE_NAME')
     collectionName = 'collection'
 
