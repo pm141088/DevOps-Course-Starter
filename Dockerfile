@@ -11,7 +11,7 @@ RUN poetry config virtualenvs.create false --local && \
 
 # Production Stage
 FROM base as production
-ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:${PORT} wsgi:app
+CMD poetry run gunicorn --bind 0.0.0.0:${PORT} wsgi:app
 
 # Development Stage
 FROM base as development
