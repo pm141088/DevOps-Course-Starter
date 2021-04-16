@@ -11,7 +11,10 @@ before_script:
 script:
   - docker run test tests
   - docker run test tests_integration
-  - docker run -e $MONGO_DB_PRIMARY_CONNECTION_STRING test tests_e2e
+  - >
+    docker run
+    -e MONGO_DB_PRIMARY_CONNECTION_STRING
+    test tests_e2e
 
 after_script:
   - docker push $DOCKER_HUB_USERNAME/todo-app:latest

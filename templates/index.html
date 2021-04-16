@@ -78,11 +78,13 @@
           <li class="list-group-item">
             <div class="row">
               <span class="col">{{ item.title }}</span>
+              {% if not view_model.reader %}
               <div class="col-auto">
                 <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
               </div>
+              {% endif %}
             </div>
             {{ item.description }}
           </li>
