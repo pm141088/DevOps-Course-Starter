@@ -1,18 +1,17 @@
 # Docker images are layered, each command creates a new layer, by using the FROM directive you specify a base image upon which to build.
 # Pull official python docker image
 FROM python:3.8.5-buster as base
+RUN pip install "poetry==1.0.9"
 
 # This is the active directory where commands will execute
+COPY . /src/
 WORKDIR /src
-COPY poetry.lock pyproject.toml /src/
+RUN poetry config virtualenvs.create false --local && \
+  poetry install
 
 # Production Stage
 FROM base as production
-RUN pip install poetry \
-    && poetry config virtualenvs.create false
-RUN poetry install --no-root --no-dev
-COPY . /src/
-ENTRYPOINT gunicorn --bind 0.0.0.0:${PORT} wsgi:app
+ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:${PORT} wsgi:app
 
 # Development Stage
 FROM base as development

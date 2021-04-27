@@ -28,7 +28,8 @@ def view_model():
             Item('to-do-id', 'to-do-title', Status.TO_DO.value, 'to-do-description', "2021-01-01T15:47:23.517Z"),
             Item('doing-id', 'doing-title', Status.DOING.value, 'doing-description', "2021-01-01T15:47:23.517Z"),
             Item('done-id', 'done-title', Status.DONE.value, 'done-description', "2021-01-01T15:47:23.517Z")
-        ]
+        ],
+        False
     )
 
 @pytest.fixture
@@ -40,7 +41,8 @@ def done_items_view_model():
             Item('to-do-id', 'to-do-title', Status.DONE.value, 'Just done', datetime.now()),
             Item('to-do-id', 'to-do-title', Status.DONE.value, '20 days done', datetime.now() - timedelta(days=20)),
             Item('to-do-id', 'to-do-title', Status.DONE.value, '20 hours done', datetime.now() - timedelta(hours=20))
-        ]
+        ],
+        False
     )
 
 # A test function can use a fixture by mentioning the fixture name as an input parameter.

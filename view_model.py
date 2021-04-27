@@ -2,8 +2,9 @@ from entity.status import Status
 from datetime import datetime, timedelta
 
 class ViewModel:
-    def __init__(self, items):
+    def __init__(self, items, reader):
         self._items = items
+        self._reader = reader
 
     @property
     def all_items(self):
@@ -33,3 +34,7 @@ class ViewModel:
     @property
     def older_done_items(self):
         return list(set(self.done_items) - set(self.recent_done_items))
+    
+    @property
+    def reader(self):
+        return self._reader

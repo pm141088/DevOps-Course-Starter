@@ -22,6 +22,8 @@ services:
     container_name: todo-app-prod
     env_file: 
      - .env
+    environment: 
+     - PORT=8000
     ports:
       - "8080:8000"
 

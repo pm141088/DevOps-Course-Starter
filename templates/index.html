@@ -7,6 +7,7 @@
   <p class="lead">Just another to-do app.</p>
 </div>
 
+{% if not view_model.reader %}
 <div class="row">
   <div class="col-md-12">
     <h2>Add Item</h2>
@@ -23,6 +24,7 @@
         <button class="btn btn-primary" type="submit">Add Item</button>
       </div>
     </form>
+    {% endif %}
 
     <br>
     <h2>To Do</h2>
@@ -31,6 +33,7 @@
       <li class="list-group-item">
         <div class="row to-do-item">
           <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
+          {% if not view_model.reader %}
           <div class="col-auto">
             <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
               <button type="submit" class="btn btn-danger">Delete</button>
@@ -39,6 +42,7 @@
               <button type="submit" class="btn btn-warning">Mark as In-Progress</button>
             </form>
           </div>
+          {% endif %}
         </div>
         {{ item.description }}
       </li>
@@ -51,6 +55,7 @@
       <li class="list-group-item">
         <div class="row">
           <span class="col"><b>{{ item.title }}</b>: {{ item.status }}</span>
+          {% if not view_model.reader %}
           <div class="col-auto">
             <form action="{{ url_for('delete_item', id=item.id) }}" method="post" class="d-inline">
               <button type="submit" class="btn btn-danger">Delete</button>
@@ -59,6 +64,7 @@
               <button type="submit" class="btn btn-success">Mark as Completed</button>
             </form>
           </div>
+          {% endif %}
         </div>
         {{ item.description }}
       </li>

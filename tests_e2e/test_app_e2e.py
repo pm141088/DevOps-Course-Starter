@@ -19,6 +19,8 @@ def test_app():
     file_path = find_dotenv()
     load_dotenv(file_path, override=True)
 
+    os.environ['LOGIN_DISABLED'] = 'True'
+
     # Create a temporary mongoDB test collection
     os.environ['MONGO_DB_DATABASE_NAME'] = f'{uuid.uuid4()}'
     collection = get_db_collection() 
@@ -62,11 +64,11 @@ def test_task_journey(driver, test_app):
     add_item_button.click()
 
     driver.implicitly_wait(3)
-
+    
     # Mark item as In Progress
     in_progress_item_button = driver.find_element_by_xpath('//button[text()="Mark as In-Progress"]')
     in_progress_item_button.click()
-
+    
     # Complete item
     complete_item_button = driver.find_element_by_xpath('//button[text()="Mark as Completed"]')
     complete_item_button.click()
