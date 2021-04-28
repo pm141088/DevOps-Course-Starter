@@ -15,8 +15,7 @@ def restricted(func):
     @wraps(func)
     def decorated_view(*args, **kwargs):
         
-        login_disabled = os.getenv('LOGIN_DISABLED')
-        print(login_disabled)
+        login_disabled = os.getenv('LOGIN_DISABLED') == 'True'
 
         user = User(current_user.get_id())
         if (login_disabled or user.get_role() == Role.Writer):
