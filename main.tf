@@ -6,6 +6,14 @@ terraform {
       version = ">=2.49"
     }
   }
+
+  # Stores the state as a Blob with the given Key within the Blob Container within the Blob Storage Account
+  backend "azurerm" {
+      resource_group_name   = "CreditSuisse1_PatrickMorris_ProjectExercise"
+      storage_account_name  = "tstatesan"
+      container_name        = "tstatecn"
+      key                   = "terraform.tfstate"
+  }
 }
 
 # Configure the Microsoft Azure Provider
