@@ -3,21 +3,17 @@ services:
 
 before_install:
   - echo "$DOCKER_HUB_PASSWORD" | docker login --username $DOCKER_HUB_USERNAME --password-stdin
-  - curl https://cli-assets.heroku.com/install.sh | sh  # install heroku
-  - docker login --username=$HEROKU_LOGIN --password=$HEROKU_API_KEY registry.heroku.com 
 
 before_script:
   - docker build --target test --tag test .
   - docker build --tag $DOCKER_HUB_USERNAME/todo-app:latest --target production .
-  - docker tag $DOCKER_HUB_USERNAME/todo-app:latest registry.heroku.com/$HEROKU_APP/web
 
 script:
   - docker run test tests
   - docker run test tests_integration
   - >
     docker run
-    -e MONGO_DB_USERNAME
-    -e MONGO_DB_PASSWORD
+    -e MONGO_DB_PRIMARY_CONNECTION_STRING
     test tests_e2e
 
 after_script:
@@ -25,6 +21,7 @@ after_script:
 
 deploy:
   provider: script
-  script: bash deploy.sh
+  script: 
+      curl -dH -X POST "$AZURE_WEBHOOK"
   on:
     branch: master

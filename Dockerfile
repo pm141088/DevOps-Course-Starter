@@ -11,7 +11,7 @@ RUN poetry config virtualenvs.create false --local && \
 
 # Production Stage
 FROM base as production
-ENTRYPOINT poetry run gunicorn --bind 0.0.0.0:${PORT} wsgi:app
+CMD poetry run gunicorn --bind 0.0.0.0:${PORT} wsgi:app
 
 # Development Stage
 FROM base as development
@@ -34,9 +34,8 @@ RUN apt-get update &&\
   rm ./chrome.deb
 
 # Install Chromium WebDriver
-RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE` &&\
- echo "Installing chromium webdriver version ${LATEST}" &&\
- curl -sSL https://chromedriver.storage.googleapis.com/${LATEST}/chromedriver_linux64.zip -o chromedriver_linux64.zip &&\
+RUN echo "Installing chromium webdriver version 89.0.4389.23" &&\
+ curl -sSL https://chromedriver.storage.googleapis.com/89.0.4389.23/chromedriver_linux64.zip -o chromedriver_linux64.zip &&\
  apt-get install unzip -y &&\
  unzip ./chromedriver_linux64.zip
 
