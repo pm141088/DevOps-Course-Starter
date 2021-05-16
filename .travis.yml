@@ -24,4 +24,4 @@ deploy:
   script: 
       curl -dH -X POST "$AZURE_WEBHOOK"
   on:
-    branch: exercise-11
+    branch: master
