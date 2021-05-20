@@ -1,5 +1,7 @@
 variable "prefix" { 
   description   = "The prefix used for all resources in this environment"
+  type          = string
+  default       = "terraform"
 }
 
 variable "location" {
@@ -10,11 +12,13 @@ variable "location" {
 variable "flask_app" {
   description   = "The FLASK_APP environment variable is used to specify how to load the application"
   type          = string
+  default       = "app"
 }
 
 variable "flask_env" {
   description   = "The FLASK_ENV environment variable is used to indicate to Flask what context Flask is running in"
   type          = string
+  default       = "development"
 }
 
 variable "client_id" {
@@ -32,9 +36,11 @@ variable "client_secret" {
 variable "oathlib_insecure_transport" {
   description   = "Use insecure transport for OAuth"
   type          = bool
+  default       = true
 }
 
 variable "login_disabled" {
   description   = "OAuth is used unless this is true"
   type          = bool
+  default       = false
 }

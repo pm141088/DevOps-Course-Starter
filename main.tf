@@ -92,7 +92,6 @@ resource "azurerm_cosmosdb_account" "main" {
   }
 
   lifecycle {
-    create_before_destroy = true
     prevent_destroy = true
   }
 
