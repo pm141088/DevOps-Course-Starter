@@ -117,3 +117,22 @@ To run the tests in a Docker container, run  `docker build --target test --tag t
 ### Documentation
 
 A collection of C4 model Architecture diagrams have been created to visualise the hierachy of abstractions in the application. These include a Context, Container, and Component diagram. These can be viewed at `https://app.diagram.net`.
+
+## Cloud Infrastructure as Code (IaC)
+
+This web application is hosted on Azure. The underlying infrastructure has been created using Terraform, an open source "IaC" tool which allows us to use declaritve coding to desribe the desired "end-state" infrastructure for running an applcation.
+
+## Basic Concept of Terraform Workflow
+To make any changes to the infrastructure, you should edit the terraform files and then apply the changes. Avoid making changes directly on the Azure portal.
+
+The workflows of Terraform are built on top of five key steps: Write, Init, Plan, Apply, and Destroy. See below for details:
+
+1. Run `terraform init` - This command is used to initialize the working directory containing Terraform configuration files. It is safe to run this command multiple times.
+2. Make changes to your Terraform code.
+3. Create an execution plan using `terraform plan` command, this is a handy way to check whether the execution plan matches your expectations without making any changes to real resources or to the state.
+4. Apply your changes by runing the `terraform apply` command. Terraform apply command is used to create or introduce changes to real infrastructure.
+5. To destroy infrastructure governed by terraform you can you run `terraform destroy` command. 
+
+### State storage
+
+This application uses Azure Blob storage to store remote state. The setup for this was done by running: `\scripts\StoreTfStateInAzureStorage.sh`. There is no need to execute this script again unless the state needs ot be setup again. 
