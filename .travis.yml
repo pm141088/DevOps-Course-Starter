@@ -12,11 +12,10 @@ before_script:
 script:
   - docker run test tests
   - docker run test tests_integration
-  # Uncomment once e2e tests on Terraformed infra is configured
-  # - >
-  # docker run
-  # -e MONGO_DB_PRIMARY_CONNECTION_STRING
-  # test tests_e2e
+  - >
+    docker run
+    -e MONGO_DB_PRIMARY_CONNECTION_STRING
+    test tests_e2e
 
 install:
   - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
