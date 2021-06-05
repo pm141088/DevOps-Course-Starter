@@ -5,6 +5,8 @@ from entity.user import User
 from entity.role import Role
 
 import os
+import logging
+log = logging.getLogger('app')
 
 '''
 Just like decorators in Python allow us to add additional functionality to functions. View decorators in Flask allow us to add additional functionality to routes.
@@ -19,8 +21,10 @@ def restricted(func):
 
         user = User(current_user.get_id())
         if (login_disabled or user.get_role() == Role.Writer):
+            log.debug(f'User "{current_user.get_id()}" is authorised and has write permissions')
             return func(*args, **kwargs)
         else:
+            log.debug(f'User "{current_user.get_id()}" does not have write permissions')
             abort(403, "User is unauthorised to perform this action...")
 
     return decorated_view
