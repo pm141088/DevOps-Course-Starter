@@ -16,6 +16,8 @@ from entity.role import Role
 from entity.access_level import restricted
 from mongo_db.index import get_db_collection
 from mongo_db.db_queries import get_all_items, mark_item_as_complete, mark_item_as_uncomplete, mark_item_as_in_progress, add_new_item, remove_item
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
 
 date_time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
@@ -28,7 +30,16 @@ def create_app():
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
-    app.logger.setLevel(os.getenv('LOG_LEVEL'))
+    app.logger.setLevel(os.getenv('LOG_LEVEL', 'DEBUG'))
+
+    loggly_token = os.getenv('LOGGLY_TOKEN')
+    loggly_tag = os.getenv('LOGGLY_TAG')
+
+    if loggly_token is not None and loggly_tag is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{loggly_token}/tag/{loggly_tag}')
+        handler.setFormatter(logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
+
     log = logging.getLogger('app')
 
     collection = get_db_collection()
