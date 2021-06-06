@@ -45,6 +45,12 @@ variable "login_disabled" {
   default     = false
 }
 
+variable "log_level" {
+  description = "Logging levels for logs, do not set to DEBUG for PROD"
+  type        = string
+  default     = "INFO"
+}
+
 variable "loggly_token" {
   description = "Loggly Customer Access Token"
   type        = string
