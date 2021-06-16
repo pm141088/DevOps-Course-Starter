@@ -44,3 +44,21 @@ variable "login_disabled" {
   type        = bool
   default     = false
 }
+
+variable "log_level" {
+  description = "Logging levels for logs, do not set to DEBUG for PROD"
+  type        = string
+  default     = "INFO"
+}
+
+variable "loggly_token" {
+  description = "Loggly Customer Access Token"
+  type        = string
+  sensitive   = true
+}
+
+variable "loggly_tag" {
+  description = "Loggly tags to aid in segmentation and filtering"
+  type        = string
+  default     = "todo-app"
+}

@@ -16,6 +16,8 @@ from entity.role import Role
 from entity.access_level import restricted
 from mongo_db.index import get_db_collection
 from mongo_db.db_queries import get_all_items, mark_item_as_complete, mark_item_as_uncomplete, mark_item_as_in_progress, add_new_item, remove_item
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
 
 date_time_format = "%Y-%m-%dT%H:%M:%S.%fZ"
 
@@ -28,7 +30,17 @@ def create_app():
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
-    app.logger.setLevel(logging.DEBUG)
+    app.logger.setLevel(os.getenv('LOG_LEVEL', 'INFO'))
+
+    loggly_token = os.getenv('LOGGLY_TOKEN')
+    loggly_tag = os.getenv('LOGGLY_TAG')
+
+    if loggly_token is not None and loggly_tag is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{loggly_token}/tag/{loggly_tag}')
+        handler.setFormatter(logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
+
+    log = logging.getLogger('app')
 
     collection = get_db_collection()
 
@@ -44,9 +56,12 @@ def create_app():
     # OAuth 2.0 Client setup
     oauth_client = WebApplicationClient(client_id)
     
+    log.info('Web Application has initialised')
+
     # Logic to redirect to Github OAuth flow when unauthenticated
     @login_manager.unauthorized_handler
     def unauthenticated():
+        log.debug('Redirecting user to be authenticated via GitHub OAuth')
         request_uri = oauth_client.prepare_request_uri(authorization_url)
         return redirect(request_uri)
 
@@ -61,6 +76,7 @@ def create_app():
     # Implement the callback route
     @app.route("/login/callback", methods=["GET"])
     def callback():
+        log.debug('Callback URL has been invoked after the user has been authenticated')
         token_url, token_headers, token_body = oauth_client.prepare_token_request(
             token_url="https://github.com/login/oauth/access_token",
             authorization_response=request.url,
@@ -90,8 +106,10 @@ def create_app():
         login_success = login_user(user)
 
         if login_success:
+            log.debug(f'Successful logon for {github_username}')
             return redirect(url_for('index'))
         else:
+            log.warning(f'Failed logon for {github_username}')
             return "Unauthorised", 403
 
     @app.route('/') 
@@ -108,35 +126,45 @@ def create_app():
     def add_item(): 
         title = request.form['item_title']
         description = request.form['item_description']
+        log.debug(f'Request to add a new item with title: {title} and description: {description}')
         add_new_item(collection, title, description)
+        log.debug(f'New item added with title: {title} and description: {description}')
         return redirect(url_for('index'))
         
     @app.route('/items/<id>/complete', methods=['POST'])
     @login_required
     @restricted
     def complete_item(id):
+        log.debug(f'Request to mark item with id: {id} as complete')
         mark_item_as_complete(collection, id)
+        log.debug(f'Item with id: {id} marked as complete')
         return redirect(url_for('index'))
 
     @app.route('/items/<id>/inprogress', methods=['POST'])
     @login_required
     @restricted
     def in_progress_item(id):
+        log.debug(f'Request to mark item with id: {id} as in progress')
         mark_item_as_in_progress(collection, id)
+        log.debug(f'Item with id: {id} marked as in progress')
         return redirect(url_for('index'))
 
     @app.route('/items/<id>/uncomplete', methods=['POST'])
     @login_required
     @restricted
     def uncomplete_item(id):
+        log.debug(f'Request to mark item with id: {id} as uncompleted')
         mark_item_as_uncomplete(collection, id)
+        log.debug(f'Item with id: {id} marked as uncompleted')
         return redirect(url_for('index'))
 
     @app.route('/items/delete/<id>', methods=['POST'])
     @login_required
     @restricted
     def delete_item(id):
+        log.debug(f'Request to delete item with id: {id}')
         remove_item(collection, id)
+        log.debug(f'Item with id: {id} has been deleted')
         return redirect(url_for('index'))
 
     if __name__ == '__main__':

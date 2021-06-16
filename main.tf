@@ -60,6 +60,9 @@ resource "azurerm_app_service" "main" {
     "CLIENT_SECRET"                      = var.client_secret
     "OAUTHLIB_INSECURE_TRANSPORT"        = var.oathlib_insecure_transport ? 1 : 0
     "LOGIN_DISABLED"                     = var.login_disabled ? "true" : "false"
+    "LOG_LEVEL"                          = var.log_level
+    "LOGGLY_TOKEN"                       = var.loggly_token
+    "LOGGLY_TAG"                         = "${var.prefix}-${var.loggly_tag}"
   }
 }
 

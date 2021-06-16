@@ -50,6 +50,18 @@ There are two authorisation roles:
 • writer - These users can also change existing to-dos or create new ones
 By default all users will have Read Only permmissions on the app unless the user is added to the hardcoded list `writer_access` in `user.py`. 
 
+## Loggly Setup
+
+This app is configured to send logs to an external service called Loggly available at: (https://www.loggly.com/)
+
+Step 1: Sign up to Loggly by creating a free trial account.
+Step 2: Obtain a new "Customer Token".
+Step 3. Copy the value of the token and create the following environment variables in the .env file.
+
+* LOGGLY_TOKEN - Customer token
+* LOGGLY_TAG - Loggly tag value
+* LOG_LEVEL - Options: ERROR, WARNING, INFO or DEBUG
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
