@@ -54,7 +54,7 @@ By default all users will have Read Only permmissions on the app unless the user
 
 This app is configured to send logs to an external service called Loggly available at: (https://www.loggly.com/)
 
-Step 1: Sign up to Loggly by creating a free trail account.
+Step 1: Sign up to Loggly by creating a free trial account.
 Step 2: Obtain a new "Customer Token".
 Step 3. Copy the value of the token and create the following environment variables in the .env file.
 

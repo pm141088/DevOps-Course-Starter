@@ -30,7 +30,7 @@ def create_app():
 
     handler = logging.StreamHandler(sys.stdout)
     app.logger.addHandler(handler)
-    app.logger.setLevel(os.getenv('LOG_LEVEL', 'DEBUG'))
+    app.logger.setLevel(os.getenv('LOG_LEVEL', 'INFO'))
 
     loggly_token = os.getenv('LOGGLY_TOKEN')
     loggly_tag = os.getenv('LOGGLY_TAG')
