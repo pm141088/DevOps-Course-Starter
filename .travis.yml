@@ -32,4 +32,4 @@ deploy:
   provider: script
   script: bash scripts/deploy.sh
   on:
-    branch: exercise-13
+    branch: master
