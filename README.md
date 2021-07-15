@@ -148,3 +148,37 @@ The workflows of Terraform are built on top of five key steps: Write, Init, Plan
 ### State storage
 
 This application uses Azure Blob storage to store remote state. The setup for this was done by running: `\scripts\StoreTfStateInAzureStorage.sh`. There is no need to execute this script again unless the state needs ot be setup again. 
+
+### Minikube deployment
+
+Minikube is a utility you can use to run Kubernetes (k8s) on your local machine. It creates a single node cluster contained in a virtual machine (VM). This cluster lets you demo Kubernetes operations without requiring the time and resource-consuming installation of full-blown K8s.
+
+The instructions below will show you how to run the To-Do app on Kubernetes using minikube.
+
+1. Run ```minikube start``` in an admin terminal to spin up your
+minikube cluster.
+
+2. Before we can get our To-Do app running on minikube, we'll need
+to create a Docker image for our Pod. Run the command below: 
+
+```
+docker build --target production --tag todo-app:prod .
+```
+
+3. Copy the contents of secret.yaml.template to secret.yaml and populate the required variables with encoded values. The secret.yaml file has been added to .gitignore to prevent anyone from accidentally committing sensitive configuration to source control. 
+
+4. Deploy the To-Do App on Kubernetes by deploying the Kubernetes manifest files below with kubectl. Kubectl uses the Kubernetes API to interact with the cluster. 
+
+```
+cd minikube
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+kubectl apply -f configmap.yaml
+kubectl apply -f secret.yaml
+```
+
+5. After each deployment, we need to run the command below to link up our minikube Service with a port on localhost.
+
+```
+kubectl port-forward service/module-14 5000:80 
+```
