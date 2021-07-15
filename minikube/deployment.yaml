@@ -1,0 +1,50 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: module-14
+spec:
+  selector:
+    matchLabels:
+      app: module-14
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: module-14
+    spec:
+      containers:
+        - name: todo-app
+          image: todo-app:prod
+          ports:
+          - containerPort: 8000
+          imagePullPolicy: Never
+          
+          envFrom:
+            - configMapRef:
+                name: module-14
+          
+          env:
+            - name: MONGO_DB_PRIMARY_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                    name: module-14
+                    key: MONGO_DB_PRIMARY_CONNECTION_STRING
+
+            - name: CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                    name: module-14
+                    key: CLIENT_ID
+                   
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                    name: module-14
+                    key: CLIENT_SECRET
+                    
+            - name: LOGGLY_TOKEN
+              valueFrom:
+                secretKeyRef:
+                    name: module-14
+                    key: LOGGLY_TOKEN
